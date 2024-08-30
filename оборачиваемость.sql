@@ -1,4 +1,4 @@
--- Заполнение таблицы остаткоми на дату за весь период
+-- Заполнение таблицы остатками на дату за весь период
 DECLARE
     v_date DATE := TO_DATE('2024-08-21', 'YYYY-MM-DD');
     v_end_date DATE := TO_DATE('2024-08-28', 'YYYY-MM-DD');
@@ -9,10 +9,7 @@ BEGIN
     END LOOP;
 END ;
 
-
-
 -- Рсчет суммы остатков за период и остатка на конец периода
-
 WITH Remains AS (
     SELECT
         t.article,
@@ -48,12 +45,12 @@ LatestPrice AS (
     WHERE
         p.DOCEXECTIME <= (SELECT MAX(remdate) FROM ttremains WHERE article = p.ARTICLE)
 )
--- Запрос данных
+-- Общий запрос данных
 SELECT
     s.SHORTNAME AS Название,
     r.article,
     r.STORELOC AS ID_МХ,
-    r.Сумма_остатков_периода,
+    --r.Сумма_остатков_периода,
     r.Quantity_Max_Remdate AS Остаток_на_конец_периода,
     lp.PRICE AS Последняя_цена,
     SUM(CASE WHEN r.STORELOC = d.LOCATIONFROM THEN sp.QUANTITY ELSE 0 END) AS Сумма_расходов,
